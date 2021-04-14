@@ -4,6 +4,7 @@ import { HttpService } from '../../../services/http.service';
 import { Movie } from '../../../models/movie';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-movie-details',
@@ -16,16 +17,18 @@ export class MovieDetailsComponent implements OnInit {
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {  }
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit() {
     this.movieDetails = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => this.http.getMovie(params.get('id')))
-    )
+    );
   }
 
   goToMovies() {
-    this.router.navigate(['/movies'])
+    // this.router.navigate(['/movies']);
+    this.location.back();
   }
 }
